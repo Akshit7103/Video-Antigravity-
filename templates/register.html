@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register User</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>User Registration</h1>
+            <a href="/" class="btn">Back to Dashboard</a>
+        </header>
+
+        <div class="card">
+            <div class="input-group">
+                <label for="name">Full Name:</label>
+                <input type="text" id="name" placeholder="Enter person's name">
+            </div>
+
+            <div id="video-container">
+                <video id="webcam" autoplay muted></video>
+            </div>
+
+            <button id="capture-btn" class="btn">Start Capture (5 Photos)</button>
+            <div id="status-msg"></div>
+        </div>
+    </div>
+
+    <script>
+        const video = document.getElementById('webcam');
+        const captureBtn = document.getElementById('capture-btn');
+        const statusMsg = document.getElementById('status-msg');
+        let stream = null;
+
+        // Start Webcam
+        async function startCamera() {
+            try {
+                stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                video.srcObject = stream;
+            } catch (err) {
+                statusMsg.textContent = "Error accessing camera: " + err.message;
+                statusMsg.style.color = "red";
+            }
+        }
+        startCamera();
+
+        // Capture Logic
+        captureBtn.addEventListener('click', async () => {
+            const name = document.getElementById('name').value.trim();
+            if (!name) {
+                alert("Please enter a name first.");
+                return;
+            }
+
+            captureBtn.disabled = true;
+            statusMsg.textContent = "Capturing 5 images...";
+
+            const images = [];
+            const canvas = document.createElement('canvas');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            const ctx = canvas.getContext('2d');
+
+            for (let i = 0; i < 5; i++) {
+                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                images.push(canvas.toDataURL('image/jpeg'));
+
+                statusMsg.textContent = `Captured ${i + 1}/5...`;
+                await new Promise(r => setTimeout(r, 500)); // Wait 500ms between shots
+            }
+
+            statusMsg.textContent = "Uploading...";
+
+            // Send to backend
+            try {
+                const response = await fetch('/api/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name: name, images: images })
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    statusMsg.textContent = "Registration Successful! Redirecting...";
+                    statusMsg.style.color = "green";
+                    setTimeout(() => window.location.href = '/', 2000);
+                } else {
+                    throw new Error(result.error || 'Unknown error');
+                }
+            } catch (err) {
+                statusMsg.textContent = "Upload Failed: " + err.message;
+                statusMsg.style.color = "red";
+                captureBtn.disabled = false;
+            }
+        });
+    </script>
+</body>
+
+</html>

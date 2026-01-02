@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Analytics Dashboard</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Security Dashboard</h1>
+            <div>
+                <a href="/users" class="btn" style="background-color: #1f6feb;">Manage Users</a>
+                <a href="/register" class="btn">Register New User</a>
+            </div>
+        </header>
+
+        <div class="card">
+            <h2>Live Logs</h2>
+            <div style="overflow-x: auto;">
+                <table id="logs-table">
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>Event</th>
+                            <th>User</th>
+                        </tr>
+                    </thead>
+                    <tbody id="logs-body">
+                        <!-- Logs will be inserted here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function fetchLogs() {
+            fetch('/api/logs')
+                .then(response => response.json())
+                .then(data => {
+                    const tbody = document.getElementById('logs-body');
+                    tbody.innerHTML = ''; // Clear existing
+
+                    data.forEach(log => {
+                        const row = document.createElement('tr');
+
+                        // Style based on event type
+                        let classDetail = '';
+                        if (log.event_type === 'unauthorized') classDetail = 'log-unauthorized';
+                        else if (log.event_type === 'phone_detected') classDetail = 'log-phone';
+                        else classDetail = 'log-entry';
+
+                        row.innerHTML = `
+                            <td>${log.timestamp}</td>
+                            <td class="${classDetail}">${log.event_type.toUpperCase()}</td>
+                            <td>${log.user_name || 'Unknown'}</td>
+                        `;
+                        tbody.appendChild(row);
+                    });
+                })
+                .catch(err => console.error('Error fetching logs:', err));
+        }
+
+        // Poll every 2 seconds
+        setInterval(fetchLogs, 2000);
+        fetchLogs();
+    </script>
+</body>
+
+</html>
