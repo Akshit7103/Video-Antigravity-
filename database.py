@@ -7,6 +7,8 @@ DB_NAME = "data/database.db"
 def init_db():
     os.makedirs("data", exist_ok=True)
     conn = sqlite3.connect(DB_NAME)
+    # Enable Write-Ahead Logging (WAL) for concurrency
+    conn.execute("PRAGMA journal_mode=WAL;")
     c = conn.cursor()
     # Users table
     c.execute('''CREATE TABLE IF NOT EXISTS users
