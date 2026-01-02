@@ -1,0 +1,49 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+.venv
+
+# Models and cache
+*.pt
+*.pth
+*.onnx
+~/.insightface/
+cache/
+
+# Database
+*.db
+*.sqlite3
+*.db-journal
+
+# Environment
+.env
+.env.local
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Screenshots
+screenshot_*.jpg
+screenshot_*.png
+
+# Temporary files
+*.tmp
+*.temp

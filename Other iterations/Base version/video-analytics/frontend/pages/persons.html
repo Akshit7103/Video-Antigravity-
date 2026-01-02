@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registered Persons - Video Analytics</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h1>Video Analytics</h1>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="register.html">Register Face</a></li>
+                <li><a href="persons.html" class="active">Persons</a></li>
+                <li><a href="analytics.html">Analytics</a></li>
+                <li><a href="cameras.html">Cameras</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h2>Registered Persons</h2>
+            <div class="header-actions">
+                <input type="text" id="searchInput" class="search-input" placeholder="Search persons...">
+                <a href="register.html" class="btn btn-primary">+ Add New Person</a>
+            </div>
+        </div>
+
+        <div class="persons-grid" id="personsGrid">
+            <div class="loading-spinner">Loading persons...</div>
+        </div>
+    </div>
+
+    <!-- Person Detail Modal -->
+    <div id="personModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <div id="personDetail"></div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Video Analytics System. All rights reserved.</p>
+    </footer>
+
+    <script src="../js/config.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/utils.js"></script>
+    <script src="../js/persons.js"></script>
+</body>
+</html>

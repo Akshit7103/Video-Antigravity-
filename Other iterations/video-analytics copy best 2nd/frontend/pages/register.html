@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Person - Video Analytics</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h1>Video Analytics</h1>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="register.html" class="active">Register Face</a></li>
+                <li><a href="persons.html">Persons</a></li>
+                <li><a href="analytics.html">Analytics</a></li>
+                <li><a href="cameras.html">Cameras</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h2>Register New Person</h2>
+            <p>Upload face images or capture from webcam to register a new person</p>
+        </div>
+
+        <div class="registration-container">
+            <!-- Method Selection -->
+            <div class="method-selector">
+                <button class="method-btn active" data-method="upload">
+                    📁 Upload Images
+                </button>
+                <button class="method-btn" data-method="webcam">
+                    📷 Capture from Webcam
+                </button>
+            </div>
+
+            <!-- Upload Method -->
+            <div id="uploadMethod" class="registration-method active">
+                <form id="uploadForm" class="registration-form">
+                    <div class="form-section">
+                        <h3>Personal Information</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="name">Full Name *</label>
+                                <input type="text" id="name" name="name" required placeholder="John Doe">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" name="email" placeholder="john@example.com">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="employeeId">Employee ID</label>
+                                <input type="text" id="employeeId" name="employee_id" placeholder="EMP001">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="phone">Phone</label>
+                                <input type="tel" id="phone" name="phone" placeholder="+1 234 567 8900">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="department">Department</label>
+                                <input type="text" id="department" name="department" placeholder="Engineering">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="designation">Designation</label>
+                                <input type="text" id="designation" name="designation" placeholder="Software Engineer">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="notes">Notes</label>
+                            <textarea id="notes" name="notes" rows="3" placeholder="Additional information..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3>Face Images *</h3>
+                        <p class="help-text">Upload 3-5 clear images of the person from different angles</p>
+
+                        <div class="upload-area" id="uploadArea">
+                            <input type="file" id="imageFiles" name="images" multiple accept="image/*" required hidden>
+                            <label for="imageFiles" class="upload-label">
+                                <div class="upload-icon">📷</div>
+                                <div>Click to select images or drag & drop here</div>
+                                <div class="upload-hint">Recommended: 3-5 images from different angles</div>
+                            </label>
+                        </div>
+
+                        <div id="imagePreview" class="image-preview"></div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary" id="submitBtn">
+                            Register Person
+                        </button>
+                        <button type="reset" class="btn btn-secondary">
+                            Clear Form
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Webcam Method -->
+            <div id="webcamMethod" class="registration-method">
+                <form id="webcamForm" class="registration-form">
+                    <div class="form-section">
+                        <h3>Personal Information</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="nameWebcam">Full Name *</label>
+                                <input type="text" id="nameWebcam" name="name" required placeholder="John Doe">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="emailWebcam">Email</label>
+                                <input type="email" id="emailWebcam" name="email" placeholder="john@example.com">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="employeeIdWebcam">Employee ID</label>
+                                <input type="text" id="employeeIdWebcam" name="employee_id" placeholder="EMP001">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="phoneWebcam">Phone</label>
+                                <input type="tel" id="phoneWebcam" name="phone" placeholder="+1 234 567 8900">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="departmentWebcam">Department</label>
+                                <input type="text" id="departmentWebcam" name="department" placeholder="Engineering">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="designationWebcam">Designation</label>
+                                <input type="text" id="designationWebcam" name="designation" placeholder="Software Engineer">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="notesWebcam">Notes</label>
+                            <textarea id="notesWebcam" name="notes" rows="3" placeholder="Additional information..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3>Capture Face Images</h3>
+                        <p class="help-text">Capture 5 images from different angles</p>
+
+                        <div class="webcam-container">
+                            <video id="webcamVideo" class="webcam-video" autoplay></video>
+                            <canvas id="webcamCanvas" class="webcam-canvas" hidden></canvas>
+                        </div>
+
+                        <div class="webcam-controls">
+                            <button type="button" class="btn btn-secondary" id="startWebcam">
+                                Start Camera
+                            </button>
+                            <button type="button" class="btn btn-primary" id="captureBtn" disabled>
+                                Capture Image (<span id="captureCount">0</span>/5)
+                            </button>
+                        </div>
+
+                        <div id="capturedImages" class="image-preview"></div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary" id="submitWebcamBtn" disabled>
+                            Register Person
+                        </button>
+                        <button type="reset" class="btn btn-secondary">
+                            Clear Form
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Status Messages -->
+        <div id="statusMessage" class="status-message" hidden></div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Video Analytics System. All rights reserved.</p>
+    </footer>
+
+    <script src="../js/config.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/utils.js"></script>
+    <script src="../js/register.js"></script>
+</body>
+</html>

@@ -1,0 +1,111 @@
+# Video Analytics Configuration
+
+app:
+  name: "Video Analytics System"
+  version: "1.0.0"
+  debug: true
+  host: "0.0.0.0"
+  port: 8000
+
+database:
+  postgres:
+    host: "localhost"
+    port: 5432
+    database: "video_analytics"
+    user: "postgres"
+    password: "Hanumaan123"
+  redis:
+    host: "localhost"
+    port: 6379
+    db: 0
+
+face_recognition:
+  # InsightFace model selection:
+  # - buffalo_l: Large model (most accurate, ~200MB)
+  # - buffalo_m: Medium model (balanced, ~100MB)
+  # - buffalo_s: Small model (fastest, ~50MB)
+  detection_model: "buffalo_l"
+
+  # Recognition threshold (cosine similarity)
+  # Higher = stricter matching (0.0 to 1.0)
+  # Recommended: 0.5 for balanced, 0.6 for strict
+  recognition_threshold: 0.5
+
+  # Minimum face size (pixels)
+  min_face_size: 80
+
+  # Maximum faces to track simultaneously
+  max_faces: 10
+
+camera:
+  # Camera sources (0 for default webcam, or RTSP URL)
+  sources:
+    - id: "cam_01"
+      url: 0
+      name: "Main Entrance"
+      enabled: true
+    - id: "cam_02"
+      url: 1
+      name: "Office Area"
+      enabled: false
+
+  # Video resolution
+  width: 1280
+  height: 720
+
+  # Frames per second
+  fps: 30
+
+  # Process every Nth frame (higher = faster but less accurate)
+  frame_skip: 2
+
+registration:
+  # Number of face samples to capture during registration
+  samples_required: 5
+
+  # Delay between captures (seconds)
+  capture_delay: 1.0
+
+  # Quality threshold for accepting a face sample
+  quality_threshold: 0.7
+
+logging:
+  level: "INFO"  # DEBUG, INFO, WARNING, ERROR
+  file: "data/logs/app.log"
+  max_size: "10MB"
+  backup_count: 5
+
+storage:
+  faces_dir: "data/faces"
+  videos_dir: "data/videos"
+  logs_dir: "data/logs"
+
+  # Save video recordings (optional)
+  save_videos: false
+  video_retention_days: 7
+
+analytics:
+  # Event deduplication window (seconds)
+  dedup_window: 30
+
+  # Timezone
+  timezone: "UTC"
+
+performance:
+  # Use GPU if available
+  use_gpu: false
+
+  # Number of worker threads
+  workers: 4
+
+  # Max concurrent camera streams
+  max_streams: 5
+
+security:
+  # API key for authentication (change in production)
+  api_key: "your-secret-api-key-change-this"
+
+  # JWT settings
+  jwt_secret: "your-jwt-secret-change-this"
+  jwt_algorithm: "HS256"
+  jwt_expiration: 3600  # seconds

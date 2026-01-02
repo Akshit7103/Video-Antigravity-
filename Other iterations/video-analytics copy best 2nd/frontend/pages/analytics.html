@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics - Video Analytics</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h1>Video Analytics</h1>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="register.html">Register Face</a></li>
+                <li><a href="persons.html">Persons</a></li>
+                <li><a href="analytics.html" class="active">Analytics</a></li>
+                <li><a href="cameras.html">Cameras</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h2>Analytics Dashboard</h2>
+            <div class="filter-controls">
+                <select id="periodSelect" class="select-input">
+                    <option value="1">Last 24 Hours</option>
+                    <option value="7" selected>Last 7 Days</option>
+                    <option value="30">Last 30 Days</option>
+                    <option value="90">Last 90 Days</option>
+                </select>
+                <button class="btn btn-secondary" id="refreshBtn">Refresh</button>
+            </div>
+        </div>
+
+        <section class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">🔍</div>
+                <div class="stat-value" id="totalDetections">-</div>
+                <div class="stat-label">Total Detections</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">👥</div>
+                <div class="stat-value" id="uniquePersons">-</div>
+                <div class="stat-label">Unique Visitors</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">📊</div>
+                <div class="stat-value" id="avgDetections">-</div>
+                <div class="stat-label">Avg. Detections/Day</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">📹</div>
+                <div class="stat-value" id="activeCameras">-</div>
+                <div class="stat-label">Active Cameras</div>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h3>Top Visitors</h3>
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Name</th>
+                            <th>Detections</th>
+                            <th>Percentage</th>
+                        </tr>
+                    </thead>
+                    <tbody id="topVisitors">
+                        <tr>
+                            <td colspan="4" class="loading">Loading...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h3>Recent Activity</h3>
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Timestamp</th>
+                            <th>Person</th>
+                            <th>Camera</th>
+                            <th>Confidence</th>
+                        </tr>
+                    </thead>
+                    <tbody id="recentActivity">
+                        <tr>
+                            <td colspan="4" class="loading">Loading...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Video Analytics System. All rights reserved.</p>
+    </footer>
+
+    <script src="../js/config.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/utils.js"></script>
+    <script src="../js/analytics.js"></script>
+</body>
+</html>

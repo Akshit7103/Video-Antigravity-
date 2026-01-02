@@ -1,0 +1,49 @@
+# Production Configuration
+# For production deployment
+
+# Application Settings
+application:
+  name: "Video Analytics System"
+  environment: "production"
+  debug: false
+  log_level: "INFO"
+
+# API Settings
+api:
+  host: "0.0.0.0"
+  port: 8000
+  reload: false  # No auto-reload in production
+  workers: 4     # Multiple workers for production
+
+# Face Recognition Settings
+face_recognition:
+  detection_model: "buffalo_l"  # InsightFace model
+  recognition_threshold: 0.6    # Stricter threshold for production
+  min_face_size: 100           # Larger minimum size for better quality
+  max_faces_per_person: 15     # More faces for better accuracy
+
+# Performance Settings
+performance:
+  use_gpu: true                # Use GPU in production if available
+  frame_skip: 3                # Balance between speed and accuracy
+  max_workers: 4               # More workers for production
+  cache_ttl: 600               # Longer cache TTL (10 minutes)
+
+# Storage Settings
+storage:
+  base_path: "/var/lib/video-analytics"
+  faces_path: "/var/lib/video-analytics/faces"
+  videos_path: "/var/lib/video-analytics/videos"
+  logs_path: "/var/log/video-analytics"
+  max_file_size_mb: 20
+
+# Session Tracking
+session:
+  timeout_minutes: 60          # Longer session timeout
+  merge_threshold_seconds: 600  # Merge detections within 10 minutes
+
+# Alerts
+alerts:
+  enable_unknown_person: true
+  enable_multiple_detections: true
+  notification_cooldown_minutes: 15

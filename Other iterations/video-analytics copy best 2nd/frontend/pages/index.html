@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Analytics - Home</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h1>Video Analytics</h1>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="register.html">Register Face</a></li>
+                <li><a href="persons.html">Persons</a></li>
+                <li><a href="analytics.html">Analytics</a></li>
+                <li><a href="cameras.html">Cameras</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <section class="hero">
+            <h2>Face Recognition Video Analytics System</h2>
+            <p>Real-time face detection and recognition with timestamped event logging</p>
+        </section>
+
+        <section class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">👥</div>
+                <div class="stat-value" id="totalPersons">-</div>
+                <div class="stat-label">Registered Persons</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">📹</div>
+                <div class="stat-value" id="activeCameras">-</div>
+                <div class="stat-label">Active Cameras</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🔍</div>
+                <div class="stat-value" id="totalDetections">-</div>
+                <div class="stat-label">Detections (7 days)</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">✅</div>
+                <div class="stat-value" id="uniquePersons">-</div>
+                <div class="stat-label">Unique Visitors (7 days)</div>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h3>Recent Detections</h3>
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>Person</th>
+                            <th>Camera</th>
+                            <th>Confidence</th>
+                        </tr>
+                    </thead>
+                    <tbody id="recentDetections">
+                        <tr>
+                            <td colspan="4" class="loading">Loading...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="quick-actions">
+            <h3>Quick Actions</h3>
+            <div class="action-buttons">
+                <a href="register.html" class="btn btn-primary">Register New Person</a>
+                <a href="analytics.html" class="btn btn-secondary">View Analytics</a>
+                <a href="cameras.html" class="btn btn-secondary">Manage Cameras</a>
+            </div>
+        </section>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Video Analytics System. All rights reserved.</p>
+    </footer>
+
+    <script src="../js/config.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/utils.js"></script>
+    <script src="../js/home.js"></script>
+</body>
+</html>

@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(netstat:*)",
+      "Bash(findstr:*)",
+      "Bash(python run.py:*)",
+      "Bash(timeout /t 5 /nobreak)",
+      "Bash(ping:*)",
+      "Bash(nul)",
+      "Bash(pip install:*)",
+      "Bash(if exist nul del /f nul)",
+      "Bash(del /f nul 2)",
+      "Bash(del \"C:\\Users\\akshi\\OneDrive\\Desktop\\New folder (2)\\video-analytics\\nul\")",
+      "Bash(ls:*)",
+      "Bash(pip show:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

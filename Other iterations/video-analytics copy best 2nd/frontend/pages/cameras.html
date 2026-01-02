@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cameras - Video Analytics</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h1>Video Analytics</h1>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="register.html">Register Face</a></li>
+                <li><a href="persons.html">Persons</a></li>
+                <li><a href="analytics.html">Analytics</a></li>
+                <li><a href="cameras.html" class="active">Cameras</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h2>Camera Management</h2>
+            <p>Monitor and control camera streams for face detection</p>
+        </div>
+
+        <!-- Live Camera View -->
+        <div id="liveView" style="display: none; margin-bottom: 2rem;">
+            <div class="camera-card">
+                <div class="camera-header">
+                    <h3 id="liveCameraName">Live View</h3>
+                    <button class="btn btn-danger btn-sm" onclick="stopLiveView()">Stop Live View</button>
+                </div>
+                <div style="position: relative; max-width: 100%; margin: 1rem 0;">
+                    <video id="liveVideo" autoplay style="width: 100%; border-radius: 8px;"></video>
+                    <canvas id="liveCanvas" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></canvas>
+                </div>
+                <div id="detectionInfo" style="margin-top: 1rem; padding: 1rem; background: var(--card-bg); border-radius: 8px;">
+                    <strong>Detections:</strong> <span id="detectionCount">0</span> faces detected
+                    <div id="detectionList" style="margin-top: 0.5rem;"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="cameras-grid" id="camerasGrid">
+            <div class="loading-spinner">Loading cameras...</div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Video Analytics System. All rights reserved.</p>
+    </footer>
+
+    <script src="../js/config.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/utils.js"></script>
+    <script src="../js/cameras.js"></script>
+</body>
+</html>

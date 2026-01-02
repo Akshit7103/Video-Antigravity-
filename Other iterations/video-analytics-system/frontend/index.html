@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Analytics System</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Video Analytics System</h1>
+            <div class="status-indicator">
+                <span class="status-dot" id="statusDot"></span>
+                <span id="statusText">Connecting...</span>
+            </div>
+        </header>
+
+        <!-- Tab Navigation -->
+        <div class="tabs">
+            <button class="tab-button active" data-tab="registration">Face Registration</button>
+            <button class="tab-button" data-tab="people">Registered People</button>
+            <button class="tab-button" data-tab="dashboard">Dashboard</button>
+        </div>
+
+        <!-- Tab Contents -->
+        <div class="tab-content">
+            <!-- Tab 1: Face Registration -->
+            <div id="registration" class="tab-panel active">
+                <h2>Register New Person</h2>
+                <div class="registration-container">
+                    <div class="video-section">
+                        <video id="webcam" autoplay playsinline></video>
+                        <canvas id="canvas" style="display:none;"></canvas>
+                        <div class="camera-controls">
+                            <button id="startCamera" class="btn btn-primary">Start Camera</button>
+                            <button id="capturePhoto" class="btn btn-success" disabled>Capture Photo</button>
+                        </div>
+                    </div>
+                    <div class="form-section">
+                        <div id="capturedPreview" class="preview-box">
+                            <p>No photo captured</p>
+                        </div>
+                        <form id="registrationForm">
+                            <div class="form-group">
+                                <label for="personName">Person Name:</label>
+                                <input type="text" id="personName" name="personName" required>
+                            </div>
+                            <button type="submit" class="btn btn-success" id="registerBtn" disabled>Register Person</button>
+                        </form>
+                        <div id="registrationStatus" class="status-message"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 2: Registered People -->
+            <div id="people" class="tab-panel">
+                <h2>Registered People</h2>
+                <div class="refresh-controls">
+                    <button id="refreshPeople" class="btn btn-primary">Refresh List</button>
+                    <span id="peopleCount" class="count-badge">0 people</span>
+                </div>
+                <div id="peopleGrid" class="people-grid">
+                    <p class="loading">Loading...</p>
+                </div>
+            </div>
+
+            <!-- Tab 3: Dashboard -->
+            <div id="dashboard" class="tab-panel">
+                <h2>Detection Dashboard</h2>
+
+                <!-- Statistics -->
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <h3>Total Detections</h3>
+                        <p id="totalDetections" class="stat-value">0</p>
+                    </div>
+                    <div class="stat-card stat-success">
+                        <h3>Authorized</h3>
+                        <p id="authorizedCount" class="stat-value">0</p>
+                    </div>
+                    <div class="stat-card stat-danger">
+                        <h3>Unauthorized</h3>
+                        <p id="unauthorizedCount" class="stat-value">0</p>
+                    </div>
+                </div>
+
+                <!-- Person Detection Logs -->
+                <div class="log-section">
+                    <div class="log-header">
+                        <h3>Person Detection Logs</h3>
+                        <button id="refreshPersonLogs" class="btn btn-sm">Refresh</button>
+                    </div>
+                    <div class="table-container">
+                        <table id="personLogsTable">
+                            <thead>
+                                <tr>
+                                    <th>Time</th>
+                                    <th>Person Name</th>
+                                    <th>Status</th>
+                                    <th>Confidence</th>
+                                    <th>Track ID</th>
+                                </tr>
+                            </thead>
+                            <tbody id="personLogsBody">
+                                <tr><td colspan="5" class="loading">Loading logs...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Phone Detection Logs -->
+                <div class="log-section">
+                    <div class="log-header">
+                        <h3>Phone Detection Logs</h3>
+                        <button id="refreshPhoneLogs" class="btn btn-sm">Refresh</button>
+                    </div>
+                    <div class="table-container">
+                        <table id="phoneLogsTable">
+                            <thead>
+                                <tr>
+                                    <th>Time</th>
+                                </tr>
+                            </thead>
+                            <tbody id="phoneLogsBody">
+                                <tr><td class="loading">Loading logs...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script src="js/registration.js"></script>
+    <script src="js/dashboard.js"></script>
+    <script src="js/websocket.js"></script>
+</body>
+</html>
