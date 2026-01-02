@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Video Analytics Dashboard</title>
     <link rel="stylesheet" href="/static/style.css">
+    <!-- Socket.IO CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
 </head>
 
 <body>
@@ -15,11 +17,30 @@
             <div>
                 <a href="/users" class="btn" style="background-color: #1f6feb;">Manage Users</a>
                 <a href="/register" class="btn">Register New User</a>
+                <a href="/logout" class="btn" style="background-color: #da3633;">Logout</a>
             </div>
         </header>
 
         <div class="card">
             <h2>Live Logs</h2>
+
+            <!-- Search & Filter Bar -->
+            <div style="display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap;">
+                <input type="text" id="search-input" placeholder="Search Name..." style="width: 200px;">
+                <select id="type-select"
+                    style="padding: 10px; background: var(--bg-color); color: white; border: 1px solid var(--border); border-radius: 6px;">
+                    <option value="all">All Events</option>
+                    <option value="entry">Entry</option>
+                    <option value="unauthorized">Unauthorized</option>
+                    <option value="phone_detected">Phone Detected</option>
+                </select>
+                <input type="date" id="start-date"
+                    style="padding: 10px; background: var(--bg-color); color: white; border: 1px solid var(--border); border-radius: 6px;">
+
+                <button onclick="fetchLogs()" class="btn" style="background-color: #1f6feb;">Filter</button>
+                <button onclick="exportCSV()" class="btn" style="background-color: #238636;">Export CSV</button>
+            </div>
+
             <div style="overflow-x: auto;">
                 <table id="logs-table">
                     <thead>
@@ -39,7 +60,16 @@
 
     <script>
         function fetchLogs() {
-            fetch('/api/logs')
+            const search = document.getElementById('search-input').value;
+            const type = document.getElementById('type-select').value;
+            const start = document.getElementById('start-date').value;
+
+            let query = `/api/logs?dummy=1`;
+            if (search) query += `&search=${search}`;
+            if (type && type !== 'all') query += `&event_type=${type}`;
+            if (start) query += `&start_date=${start}`;
+
+            fetch(query)
                 .then(response => response.json())
                 .then(data => {
                     const tbody = document.getElementById('logs-body');
@@ -65,10 +95,62 @@
                 .catch(err => console.error('Error fetching logs:', err));
         }
 
-        // Poll every 2 seconds
-        setInterval(fetchLogs, 2000);
+        function exportCSV() {
+            const search = document.getElementById('search-input').value;
+            const type = document.getElementById('type-select').value;
+            const start = document.getElementById('start-date').value;
+            let query = `/api/export_logs?dummy=1`;
+            if (search) query += `&search=${search}`;
+            if (type && type !== 'all') query += `&event_type=${type}`;
+            if (start) query += `&start_date=${start}`;
+
+            window.location.href = query;
+        }
+
+        // Initial Load
         fetchLogs();
+
+        // Socket.IO Logic
+        const socket = io();
+
+        socket.on('connect', () => {
+            console.log("Connected to WebSocket");
+        });
+
+        socket.on('new_log', (log) => {
+            console.log("New log received:", log);
+            const tbody = document.getElementById('logs-body');
+            const row = document.createElement('tr');
+
+            // Animation class
+            row.style.animation = "highlight 2s ease";
+
+            let classDetail = '';
+            if (log.event_type === 'unauthorized') classDetail = 'log-unauthorized';
+            else if (log.event_type === 'phone_detected') classDetail = 'log-phone';
+            else classDetail = 'log-entry';
+
+            row.innerHTML = `
+                <td>${log.timestamp}</td>
+                <td class="${classDetail}">${log.event_type.toUpperCase()}</td>
+                <td>${log.user_name || 'Unknown'}</td>
+            `;
+
+            // Prepend to top
+            tbody.insertBefore(row, tbody.firstChild);
+        });
     </script>
+    <style>
+        @keyframes highlight {
+            0% {
+                background-color: #1f6feb;
+            }
+
+            100% {
+                background-color: transparent;
+            }
+        }
+    </style>
 </body>
 
 </html>

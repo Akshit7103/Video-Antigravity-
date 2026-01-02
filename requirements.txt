@@ -5,3 +5,8 @@ insightface
 onnxruntime
 numpy
 pillow
+flask-login
+werkzeug
+flask-socketio
+python-socketio
+eventlet

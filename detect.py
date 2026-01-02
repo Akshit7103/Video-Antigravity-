@@ -6,6 +6,15 @@ import datetime
 from ultralytics import YOLO
 from insightface.app import FaceAnalysis
 import database
+import socketio
+
+# --- SocketIO Client ---
+sio = socketio.Client()
+try:
+    sio.connect('http://localhost:5000')
+    print("Connected to WebSocket Server")
+except Exception as e:
+    print(f"WebSocket connection failed: {e} (Will try to match logic without real-time updates)")
 
 # --- Configuration ---
 CAMERA_SOURCE = 0 # Or RTSP URL
@@ -210,6 +219,9 @@ def main():
                             if timestamp - p_state['last_log'] > LOG_COOLDOWN:
                                 print(f"Identified {name} (ID: {track_id})")
                                 database.log_event(None, name, 'entry')
+                                # Emit to SocketIO
+                                if sio.connected:
+                                    sio.emit('log_event', {'user_name': name, 'event_type': 'entry', 'timestamp': database.get_local_time()})
                                 p_state['last_log'] = timestamp
                         else:
                             p_state['face_attempts'] += 1
@@ -233,6 +245,8 @@ def main():
                  if timestamp - p_state['last_log'] > LOG_COOLDOWN:
                      print(f"UNAUTHORIZED Person Detected (ID: {track_id})")
                      database.log_event(None, f"Unknown (ID: {track_id})", 'unauthorized')
+                     if sio.connected:
+                         sio.emit('log_event', {'user_name': f"Unknown (ID: {track_id})", 'event_type': 'unauthorized', 'timestamp': database.get_local_time()})
                      p_state['last_log'] = timestamp
 
             # --- PHONE DETECTION ---
@@ -253,6 +267,8 @@ def main():
                     print(msg)
                     # REMOVED SNAPSHOT based on feedback
                     database.log_event(None, p_state['name'], 'phone_detected')
+                    if sio.connected:
+                        sio.emit('log_event', {'user_name': p_state['name'], 'event_type': 'phone_detected', 'timestamp': database.get_local_time()})
                     p_state['last_phone_log'] = timestamp
             
             # --- DRAW UI ---

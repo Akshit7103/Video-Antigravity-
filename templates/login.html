@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        .login-card {
+            max-width: 400px;
+            margin: 100px auto;
+            text-align: center;
+        }
+
+        input {
+            width: 100%;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="card login-card">
+            <h2>Admin Login</h2>
+            {% if error %}
+            <p style="color: red;">{{ error }}</p>
+            {% endif %}
+
+            <form method="POST" action="/login">
+                <div style="text-align: left; margin-bottom: 5px;">Username</div>
+                <input type="text" name="username" required>
+
+                <div style="text-align: left; margin-bottom: 5px;">Password</div>
+                <input type="password" name="password" required>
+
+                <button type="submit" class="btn" style="width: 100%;">Login</button>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>
