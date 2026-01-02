@@ -177,7 +177,21 @@ def main():
                     kept_ids.add(p['id'])
 
         # Clean up old tracks
-        state.person_map = {k: v for k, v in state.person_map.items() if timestamp - v['last_seen'] < 5.0}
+        # Clean up old tracks and log EXITS
+        to_remove = []
+        for track_id, p_state in state.person_map.items():
+            # If not seen for X seconds, consider them gone
+            if timestamp - p_state['last_seen'] > 5.0:
+                # If they were known/identified, log the exit
+                if p_state['name'] != 'Unknown':
+                    print(f"EXIT: {p_state['name']} (ID: {track_id})")
+                    database.log_event(None, p_state['name'], 'exit')
+                    if sio.connected:
+                        sio.emit('log_event', {'user_name': p_state['name'], 'event_type': 'exit', 'timestamp': database.get_local_time()})
+                to_remove.append(track_id)
+        
+        for track_id in to_remove:
+            del state.person_map[track_id]
 
         for track_id, bbox in current_person_boxes.items():
             if track_id not in state.person_map:

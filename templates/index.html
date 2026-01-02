@@ -31,6 +31,7 @@
                     style="padding: 10px; background: var(--bg-color); color: white; border: 1px solid var(--border); border-radius: 6px;">
                     <option value="all">All Events</option>
                     <option value="entry">Entry</option>
+                    <option value="exit">Exit</option>
                     <option value="unauthorized">Unauthorized</option>
                     <option value="phone_detected">Phone Detected</option>
                 </select>
@@ -82,6 +83,7 @@
                         let classDetail = '';
                         if (log.event_type === 'unauthorized') classDetail = 'log-unauthorized';
                         else if (log.event_type === 'phone_detected') classDetail = 'log-phone';
+                        else if (log.event_type === 'exit') classDetail = 'log-exit';
                         else classDetail = 'log-entry';
 
                         row.innerHTML = `
@@ -128,6 +130,7 @@
             let classDetail = '';
             if (log.event_type === 'unauthorized') classDetail = 'log-unauthorized';
             else if (log.event_type === 'phone_detected') classDetail = 'log-phone';
+            else if (log.event_type === 'exit') classDetail = 'log-exit';
             else classDetail = 'log-entry';
 
             row.innerHTML = `

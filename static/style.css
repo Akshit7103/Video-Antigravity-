@@ -31,7 +31,9 @@ header {
     border-bottom: 1px solid var(--border);
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
     margin: 0;
 }
 
@@ -65,7 +67,8 @@ table {
     border-collapse: collapse;
 }
 
-th, td {
+th,
+td {
     text-align: left;
     padding: 12px;
     border-bottom: 1px solid var(--border);
@@ -76,9 +79,26 @@ th {
     font-weight: 600;
 }
 
-.log-entry { color: var(--success); }
-.log-unauthorized { color: var(--danger); font-weight: bold; }
-.log-phone { color: #d29922; }
+.log-entry {
+    color: var(--success);
+}
+
+.log-unauthorized {
+    color: var(--danger);
+    font-weight: bold;
+}
+
+.log-phone {
+    color: #e6a700;
+    /* Yellow-Orange */
+    font-weight: bold;
+}
+
+.log-exit {
+    color: #8b949e;
+    /* Grey */
+    font-style: italic;
+}
 
 /* Camera Registration */
 #video-container {
